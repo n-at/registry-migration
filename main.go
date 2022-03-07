@@ -93,7 +93,7 @@ func main() {
 			log.Errorf("unable to get tags for %s: %s", image, err)
 		}
 
-		fmt.Printf("tags for %s: %s\n", image, tags)
+		log.Infof("tags for %s: %s\n", image, tags)
 
 		for _, tag := range tags {
 			if err := copyImageTag(config.SourceUrl, config.DestinationUrl, image, tag); err != nil {
