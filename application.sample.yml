@@ -1,0 +1,13 @@
+app:
+  #source registry url and credentials
+  sourceUrl: "registry.example.com"
+  sourceLogin: "user"
+  sourcePassword: "helloworld"
+
+  #include source images by regex
+  sourceInclude: ".*"
+
+  #destination registry url and credentials
+  destinationUrl: "registry.private.com"
+  destinationLogin: "user2"
+  destinationPassword: "hellouser"
