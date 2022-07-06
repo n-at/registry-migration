@@ -104,12 +104,20 @@ func main() {
 }
 
 func login(url, login, password string) error {
+	if len(login) == 0 {
+		return nil
+	}
 	cmd := exec.Command(config.Executable, "login", "--username", login, "--password", password, url)
 	return cmd.Run()
 }
 
 func catalog(url, login, password string) ([]string, error) {
-	queryUrl := fmt.Sprintf("https://%s:%s@%s/v2/_catalog", login, password, url)
+	queryUrl := ""
+	if len(login) != 0 {
+		queryUrl = fmt.Sprintf("http://%s:%s@%s/v2/_catalog", login, password, url)
+	} else {
+		queryUrl = fmt.Sprintf("http://%s/v2/_catalog", url)
+	}
 
 	response, err := http.Get(queryUrl)
 	if err != nil {
@@ -135,7 +143,12 @@ func catalog(url, login, password string) ([]string, error) {
 }
 
 func tags(url, login, password, image string) ([]string, error) {
-	queryUrl := fmt.Sprintf("https://%s:%s@%s/v2/%s/tags/list", login, password, url, image)
+	queryUrl := ""
+	if len(login) != 0 {
+		queryUrl = fmt.Sprintf("http://%s:%s@%s/v2/%s/tags/list", login, password, url, image)
+	} else {
+		queryUrl = fmt.Sprintf("http://%s/v2/%s/tags/list", url, image)
+	}
 
 	response, err := http.Get(queryUrl)
 	if err != nil {
